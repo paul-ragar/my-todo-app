@@ -1,0 +1,54 @@
+//USERS TABLE
+
+CREATE TABLE users
+(
+user_id SERIAL PRIMARY KEY,
+username text,
+password text,
+first_name text,
+last_name text,
+phone_number integer,
+user_img text
+);
+
+//RECIPES TABLE
+
+CREATE TABLE recipes
+(
+recipe_id SERIAL PRIMARY KEY,
+recipe_name text,
+recipe_img text,
+serving_size text,
+category_id int,
+recipe_notes text,
+user_id int
+);
+
+//INGREDIENTS TABLE
+
+CREATE TABLE ingredients
+(
+ingredients_id SERIAL PRIMARY KEY,
+ingredient_name text,
+recipe_id int,
+measurements text
+);
+
+
+//DIRECTIONS TABLE
+
+CREATE TABLE directions
+(
+directions_id SERIAL PRIMARY KEY,
+directions text,
+recipe_id int
+);
+
+//CATEGORY TABLE
+
+CREATE TABLE category
+(
+category_id SERIAL PRIMARY KEY,
+category_name text,
+user_id int
+);

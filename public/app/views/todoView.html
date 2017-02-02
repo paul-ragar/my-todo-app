@@ -1,0 +1,27 @@
+<section class="todo-container">
+  <section class="todo-section">
+    <form ng-submit="addTodo(newTodo); newTodo = null" method="post">
+      <input class="input-todo" type="text" ng-model="newTodo.listItem" placeholder="New Todo...">
+      <button class="button-create-todo" type="button" ng-click="addTodo(newTodo); newTodo = null" name="button">Create</button>
+    </form>
+  </section>
+
+  <section class="todo-list-section">
+    <h1>To-Do List</h1>
+    <div ng-repeat="item in todoItems track by $index"class="list-item-wrapper">
+      <input type="checkbox" class="todo-checkbox"style="cursor: pointer" ng-model="item.checked">
+      <p ng-hide="editing">{{item.listItem}}</p>
+      <input ng-show="editing" type="text" name="name" value="">
+      <i class="fa fa-pencil" aria-hidden="true" ng-click="editTodo()"></i>
+    </div>
+    <button type="button" class="update-list" ng-click="updateList()">Update List</button>
+  </section>
+
+  <section class="todo-list-section">
+    <h1>Completed Items</h1>
+    <div ng-repeat="completedItem in completedItems track by $index"class="list-item-wrapper">
+      <p>{{completedItem[0].listItem}}</p>
+      <button type="button" ng-click="deleteCompleted($index)" name="button">X</button>
+    </div>
+  </section>
+</section>
