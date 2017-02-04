@@ -11,6 +11,9 @@ phone_number integer,
 user_img text
 );
 
+ALTER TABLE table_name
+ADD column_name datatype
+
 //RECIPES TABLE
 
 CREATE TABLE recipes

@@ -21,10 +21,19 @@ const massiveServer = massive.connectSync({
 app.set('db', massiveServer);
 const db = app.get('db');
 
+//ENDPOINTS//
+const serverCtrl = require('./controller/serverCtrl');
 
+// SIGNUP
+app.post('/register_user', serverCtrl.register_user)
 
-
-
+//TODO
+app.post('/post_todo', serverCtrl.post_todo)
+app.get('/todos', (req, res) => {
+  db.todos.get_todos((err, todos) => {
+    res.status(200).send(todos);
+  })
+});
 
 
 

@@ -1,18 +1,25 @@
 <section class="todo-container">
   <section class="todo-section">
-    <form ng-submit="addTodo(newTodo); newTodo = null" method="post">
-      <input class="input-todo" type="text" ng-model="newTodo.listItem" placeholder="New Todo...">
-      <button class="button-create-todo" type="button" ng-click="addTodo(newTodo); newTodo = null" name="button">Create</button>
+    <h1>Create New To-Do</h1>
+    <form ng-submit="postTodo(newTodo); newTodo = null" method="post">
+      <input class="input-todo-title" type="text" ng-model="newTodo.todo_title" placeholder="To-Do Title..." />
+      <textarea class="input-todo-desc" rows="2" type="text" ng-model="newTodo.todo_description" placeholder="To-Do Description..."></textarea>
+      <button class="button-create-todo" type="button" ng-click="postTodo(newTodo); newTodo = null" name="button">Create</button>
     </form>
   </section>
 
   <section class="todo-list-section">
     <h1>To-Do List</h1>
-    <div ng-repeat="item in todoItems track by $index"class="list-item-wrapper">
-      <input type="checkbox" class="todo-checkbox"style="cursor: pointer" ng-model="item.checked">
-      <p ng-hide="editing">{{item.listItem}}</p>
-      <input ng-show="editing" type="text" name="name" value="">
-      <i class="fa fa-pencil" aria-hidden="true" ng-click="editTodo()"></i>
+    <div ng-repeat="todo in todos track by $index"class="list-item-wrapper">
+      <div class="todo-title-bar">
+        <p>{{todo.todo_title}}</p>
+        <i class="fa fa-pencil" aria-hidden="true" ng-click="editTodo()"></i>
+      </div>
+      <div class="todo-desc-container">
+        <input type="checkbox" class="todo-checkbox"style="cursor: pointer" ng-model="todo.checked">
+        <label class="todo-checkbox-label"></label>
+        <p>{{todo.todo_description}}</p>
+      </div>
     </div>
     <button type="button" class="update-list" ng-click="updateList()">Update List</button>
   </section>

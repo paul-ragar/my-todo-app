@@ -1,7 +1,7 @@
 angular.module('myTodoApp', ['ui.router', 'ngAnimate'])
 .config(function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise('/todo');
+  $urlRouterProvider.otherwise('/signup');
 
   $stateProvider
   .state('home', {
@@ -12,7 +12,14 @@ angular.module('myTodoApp', ['ui.router', 'ngAnimate'])
     url: '/todo',
     templateUrl: './app/views/todoView.html'
   })
-
+  .state('login', {
+    url: '/login',
+    templateUrl: './app/views/loginView.html'
+  })
+  .state('signup', {
+    url: '/signup',
+    templateUrl: './app/views/signupView.html'
+  })
 
 
 
