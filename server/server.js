@@ -34,6 +34,16 @@ app.get('/todos', (req, res) => {
     res.status(200).send(todos);
   })
 });
+app.delete('/delete_todos/:todo_id', serverCtrl.delete_todos)
+
+//COMPLETES
+app.post('/post_completes/:todo_id', serverCtrl.post_completes)
+app.get('/get_completes', (req, res) => {
+  db.completes.get_completes((err, todos) => {
+    res.status(200).send(todos);
+  })
+})
+app.delete('/delete_completes/:complete_id', serverCtrl.delete_completes)
 
 
 

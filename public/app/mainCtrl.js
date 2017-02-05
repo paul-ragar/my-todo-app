@@ -33,9 +33,9 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
     newTodo.todo_date = new Date();
     mainService.postTodo(newTodo).then((response) => {
       if (!response.data) {
-        console.log("There was an error");
+        console.warn("There was an error");
       } else {
-        console.log("New Todo Successful");
+        // console.log("New Todo Successful");
         $scope.getTodos();
       }
     }).catch((err) => {
@@ -51,27 +51,57 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
   $scope.getTodos();
 
   $scope.updateList = () => {
+
+    mainService.postCompletes($scope.todos).then((response) => {
+      $scope.getTodos();
+      $scope.getCompletes();
+    })
+
+    var newComplete;
     for (var i = 0; i < $scope.todos.length; i++) {
       if ($scope.todos[i].checked) {
-        console.log(i, $scope.todos[i] );
-        // newCompleted = this.todoItems.splice(i, 1);
-        // this.completedItems.push(newCompleted);
+        newComplete = $scope.todos[i];
+        mainService.postCompletes(newComplete).then((response) => {
+          // console.log("newComplete data for the delete function", newComplete);
+        });
+      } else {
+        continue;
       }
     }
-    // var response = mainService.updateList();
-    // $scope.todoItems = response[0];
-    // $scope.completedItems = response[1];
+    $scope.getTodos();
+    $scope.getCompletes();
   }
 
-  
+  $scope.getCompletes = () => {
+    mainService.getCompletes().then((response) => {
+      // console.log("Get Completes: ", response.data);
+      $scope.completes = response.data;
+    })
+  }
+  $scope.getCompletes();
+
+  $scope.deleteTodos = (todo) => {
+    mainService.deleteTodos(todo).then((response) => {
+      // console.log("Delete Successful.");
+    })
+  }
+
+  $scope.deleteCompletes = (complete) => {
+    mainService.deleteCompletes(complete).then((response) => {
+      // console.log("Complete Delete Successful");
+      $scope.getCompletes();
+    })
+  }
+
+
 //////////////// signupView.html
 
   $scope.registerUser = (new_user) => {
     mainService.registerUser(new_user).then((response) => {
       if (!response.data) {
-        console.log("Unable to create new user");
+        console.warn("Unable to create new user");
       } else {
-        console.log("You created this new user", response.data);
+        // console.log("You created this new user", response.data);
         $state.go('todo');
       }
     }).catch((err) => {

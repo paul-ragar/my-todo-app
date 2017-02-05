@@ -45,7 +45,7 @@ angular.module('myTodoApp').service('mainService', function($http) {
       url: '/post_todo',
       data: newTodo
     }).then((response) => {
-      console.log("MainService: ", response);
+      // console.log("MainService: ", response);
       return response;
     });
   };
@@ -59,7 +59,48 @@ angular.module('myTodoApp').service('mainService', function($http) {
     });
   };
 
-////////////////////////// todoView.html
+  this.postCompletes = (newComplete) => {
+    newComplete.complete_end_date = new Date();
+    return $http({
+      method: 'POST',
+      url: '/post_completes/' + newComplete.todo_id,
+      data: newComplete
+    }).then((response) => {
+      return response;
+    })
+    // console.log("From the mainService: ", newComplete);
+  }
+
+  this.getCompletes = () => {
+    return $http({
+      method: 'GET',
+      url: '/get_completes'
+    }).then((response) => {
+      return response;
+    })
+  }
+
+  this.deleteTodos = (todo) => {
+    // console.log("mainService todo Delete", todo.todo_id);
+    return $http({
+      method: 'DELETE',
+      url: '/delete_todos/' + todo.todo_id
+    }).then((response)  => {
+      return response;
+    })
+  }
+
+  this.deleteCompletes = (complete) => {
+    // console.log("MainService complete delete: ",complete.complete_id);
+    return $http({
+      method: 'DELETE',
+      url: '/delete_completes/' + complete.complete_id
+    }).then((response) => {
+      return response;
+    })
+  }
+
+////////////////////////// signupView.html
 
   this.registerUser = (new_user) => {
     return $http({
@@ -67,12 +108,12 @@ angular.module('myTodoApp').service('mainService', function($http) {
       url: '/register_user',
       data: new_user
     }).then((response) => {
-      console.log("MainService: ", response);
+      // console.log("MainService: ", response);
       return response;
     });
   };
 
-////////////////////////// todoView.html
+////////////////////////// loginView.html
 
 
 

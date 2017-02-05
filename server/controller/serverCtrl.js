@@ -11,5 +11,22 @@ const db = app.get('db');
       db.todos.post_todo([req.body.todo_title, req.body.todo_description, req.body.todo_date], (err, post_todo) => {
         res.status(200).send(post_todo);
       });
+    },
+    post_completes: (req, res, next) => {
+      db.completes.post_complete([req.body.todo_title, req.body.todo_description, req.body.todo_date, req.body.complete_end_date], (err, post_completes) => {
+        db.todos.delete_todos([req.params.todo_id], (err, delete_todos) => {
+          res.status(200).send(delete_todos);
+        });
+      });
+    },
+    delete_todos: (req, res, next) => {
+      db.todos.delete_todos([req.params.todo_id], (err, delete_todos) => {
+        res.status(200).send(delete_todos);
+      });
+    },
+    delete_completes: (req, res, next) => {
+      db.completes.delete_completes([req.params.complete_id], (err, delete_completes) => {
+        res.status(200).send(delete_completes);
+      });
     }
   };

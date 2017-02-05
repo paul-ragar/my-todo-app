@@ -26,9 +26,10 @@
 
   <section class="todo-list-section">
     <h1>Completed Items</h1>
-    <div ng-repeat="completedItem in completedItems track by $index"class="list-item-wrapper">
-      <p>{{completedItem[0].listItem}}</p>
-      <button type="button" ng-click="deleteCompleted($index)" name="button">X</button>
+    <div ng-repeat="complete in completes track by $index"class="list-item-wrapper">
+      <p>{{complete.complete_title}}</p>
+      <p>{{complete.complete_description}}</p>
+      <button type="button" ng-click="deleteCompletes(complete)" name="button">X</button>
     </div>
   </section>
 </section>
