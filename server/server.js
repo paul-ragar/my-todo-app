@@ -24,8 +24,41 @@ const db = app.get('db');
 //ENDPOINTS//
 const serverCtrl = require('./controller/serverCtrl');
 
-// SIGNUP
-app.post('/register_user', serverCtrl.register_user)
+//SESSION AND PASSPORT//
+
+const passport = require('./passport.js')
+
+const isAuthed = (req, res, next) => {
+  if (!req.isAuthenticated()) return res.status(401).send();
+  return next();
+};
+
+app.use(session({
+  secret: config.sessionSecret,
+  saveUninitialized: false,
+  resave: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// LOGIN
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/me'
+}));
+app.get('/logout', function(req, res, next) {
+	req.logout();
+	return res.status(200)
+		.send('logged out');
+});
+
+// User Endpoints
+const userCtrl = require('./controller/userCtrl.js')
+
+app.post('/register', userCtrl.register);
+app.get('/user', userCtrl.read);
+app.get('/me', isAuthed, userCtrl.me);
+app.put('/user/:_id', isAuthed, userCtrl.update);
+
 
 //TODO
 app.post('/post_todo', serverCtrl.post_todo)
@@ -35,6 +68,7 @@ app.get('/todos', (req, res) => {
   })
 });
 app.delete('/delete_todos/:todo_id', serverCtrl.delete_todos)
+app.put('/update_todo/:todo_id', serverCtrl.update_todo)
 
 //COMPLETES
 app.post('/post_completes/:todo_id', serverCtrl.post_completes)

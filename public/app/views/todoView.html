@@ -12,13 +12,16 @@
     <h1>To-Do List</h1>
     <div ng-repeat="todo in todos track by $index"class="list-item-wrapper">
       <div class="todo-title-bar">
-        <p>{{todo.todo_title}}</p>
-        <i class="fa fa-pencil" aria-hidden="true" ng-click="editTodo()"></i>
+        <p ng-show="!todo.edit">{{todo.todo_title}}</p>
+        <input ng-show="todo.edit" type="text" name="name" ng-model="todo.todo_title" value="">
+        <i ng-show="!todo.edit" class="fa fa-pencil" aria-hidden="true" ng-click="editTodo(todo)"></i>
+        <p class="fa-pencil" ng-show="todo.edit" ng-click="doneEditing(todo)" >Done</p>
       </div>
       <div class="todo-desc-container">
         <input type="checkbox" class="todo-checkbox"style="cursor: pointer" ng-model="todo.checked">
         <label class="todo-checkbox-label"></label>
-        <p>{{todo.todo_description}}</p>
+        <p ng-show="!todo.edit">{{todo.todo_description}}</p>
+        <input ng-show="todo.edit" type="text" name="name" ng-model="todo.todo_description" value="">
       </div>
     </div>
     <button type="button" class="update-list" ng-click="updateList()">Update List</button>

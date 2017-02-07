@@ -3,7 +3,7 @@ const db = app.get('db');
 
   module.exports = {
     register_user: (req, res, next) => {
-      db.users.post_user([req.body.username, req.body.password, req.body.first_name, req.body.last_name], (err, register_user) => {
+      db.userqueries.post_user([req.body.username, req.body.password, req.body.first_name, req.body.last_name], (err, register_user) => {
         res.status(200).send(register_user);
       });
     },
@@ -27,6 +27,11 @@ const db = app.get('db');
     delete_completes: (req, res, next) => {
       db.completes.delete_completes([req.params.complete_id], (err, delete_completes) => {
         res.status(200).send(delete_completes);
+      });
+    },
+    update_todo: (req, res, next) => {
+      db.todos.update_todo([req.body.todo_title, req.body.todo_description, req.params.todo_id], (err, update_todo) => {
+        res.status(200).send(update_todo);
       });
     }
   };

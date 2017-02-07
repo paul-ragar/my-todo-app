@@ -2,43 +2,6 @@ angular.module('myTodoApp').service('mainService', function($http) {
 
 ////////////////////////// todoView.html
 
-  // this.todoItems = [];
-  // this.todoItems = JSON.parse(localStorage.getItem('Todo Data')) || [];
-  //
-  // this.completedItems = [];
-  // this.completedItems = JSON.parse(localStorage.getItem('Completed Data')) || [];
-  //
-  //
-  // this.addTodo = (todo) => {
-  //   console.log(todo);
-  //   this.todoItems.push(todo);
-  //   localStorage.setItem('Todo Data', JSON.stringify(this.todoItems));
-  //   return this.todoItems;
-  // }
-  // this.updateList = () => {
-  //   var newCompleted;
-  //   for (var i = this.todoItems.length - 1; i >= 0; i--) {
-  //     if (this.todoItems[i].checked) {
-  //       newCompleted = this.todoItems.splice(i, 1);
-  //       this.completedItems.push(newCompleted);
-  //     }
-  //   }
-  //   localStorage.setItem('Todo Data', JSON.stringify(this.todoItems));
-  //   localStorage.setItem('Completed Data', JSON.stringify(this.completedItems));
-  //   return [this.todoItems, this.completedItems];
-  // }
-  //
-  // this.deleteCompleted = (item) => {
-  //   var garbage;
-  //   for (var i = 0; i < this.completedItems.length; i++) {
-  //     if (item === i) {
-  //       this.completedItems.splice(i,1);
-  //     }
-  //   }
-  //   localStorage.setItem('Completed Data', JSON.stringify(this.completedItems));
-  //   return this.completedItems;
-  // }
-
   this.postTodo = (newTodo) => {
     return $http({
       method: 'POST',
@@ -100,6 +63,19 @@ angular.module('myTodoApp').service('mainService', function($http) {
     })
   }
 
+  this.updateTodos = (todo) => {
+    return $http({
+      method: 'PUT',
+      url: '/update_todo/;' + todo.todo_id,
+      data: {
+        todo_title: todo.todo_title,
+        todo_description: todo.todo_description
+      }
+    }).then((response) => {
+      return response;
+    })
+  }
+
 ////////////////////////// signupView.html
 
   this.registerUser = (new_user) => {
@@ -113,7 +89,73 @@ angular.module('myTodoApp').service('mainService', function($http) {
     });
   };
 
-////////////////////////// loginView.html
+////////////////////////// AUTHSERVICE
+
+this.login = function(user) {
+    return $http({
+      method: 'post',
+      url: '/login',
+      data: user
+    }).then(function(response) {
+      return response;
+    });
+  };
+
+  this.logout = function() {
+    return $http({
+      method: 'GET',
+      url: '/logout'
+    }).then(function(response) {
+      return response;
+    });
+  };
+
+  this.getCurrentUser = function() {
+    return $http({
+      method: 'GET',
+      url: '/me'
+    });
+  };
+
+  this.registerUser = function(user) {
+    return $http({
+      method: 'POST',
+      url: '/register',
+      data: user
+    }).then(function(response) {
+      return response;
+    });
+  };
+
+  this.editUser = function(id, user) {
+    return $http({
+      method: 'PUT',
+      url: "/user/" + id,
+      data: user
+    }).then(function(response) {
+      return response;
+    });
+  };
+
+  //USERSERVICE//
+  this.getUser = function() {
+    return $http({
+      method: 'GET',
+      url: '/user'
+    }).then(function(response) {
+      return response;
+    });
+  };
+
+  this.getUserById = function(id) {
+    return $http({
+      method: 'GET',
+      url: '/user?_id=' + id
+    }).then(function(response) {
+      return response;
+    });
+  };
+
 
 
 

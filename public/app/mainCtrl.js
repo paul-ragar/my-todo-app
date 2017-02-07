@@ -3,32 +3,6 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
 
 //////////////// todoView.html
 
-  // $scope.editing = false;
-  //
-  // $scope.addTodo = (todo) => {
-  //   if (!todo) {
-  //     return false;
-  //   }
-  //   $scope.todoItems = mainService.addTodo(todo);
-  // }
-  //
-
-  //
-  // $scope.getTodoData = () => {
-  //   $scope.todoItems = mainService.todoItems;
-  //   $scope.completedItems = mainService.completedItems;
-  // }
-  // $scope.getTodoData();
-  //
-  // $scope.deleteCompleted = (item) => {
-  //   $scope.completedItems = mainService.deleteCompleted(item);
-  // }
-  //
-  // $scope.editTodo = () => {
-  //   console.log("Edit Todo");
-  //   $scope.editing = true;
-  // }
-
   $scope.postTodo = (newTodo) => {
     newTodo.todo_date = new Date();
     mainService.postTodo(newTodo).then((response) => {
@@ -52,24 +26,20 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
 
   $scope.updateList = () => {
 
-    mainService.postCompletes($scope.todos).then((response) => {
-      $scope.getTodos();
-      $scope.getCompletes();
-    })
-
     var newComplete;
     for (var i = 0; i < $scope.todos.length; i++) {
       if ($scope.todos[i].checked) {
         newComplete = $scope.todos[i];
         mainService.postCompletes(newComplete).then((response) => {
           // console.log("newComplete data for the delete function", newComplete);
+          $scope.getTodos();
+          $scope.getCompletes();
         });
       } else {
         continue;
       }
     }
-    $scope.getTodos();
-    $scope.getCompletes();
+
   }
 
   $scope.getCompletes = () => {
@@ -93,6 +63,18 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
     })
   }
 
+  $scope.editTodo = (todo) => {
+    todo.edit = true;
+  }
+  $scope.doneEditing = (todo) => {
+    console.log(todo);
+    mainService.updateTodos(todo).then((response) => {
+      console.log("Edit finished, and updated");
+      todo.edit = false;
+
+    })
+  }
+
 
 //////////////// signupView.html
 
@@ -109,7 +91,26 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
     });
   }
 
-//////////////// todoView.html
+
+//////////////// loginView.html
+
+$scope.login = function(user) {
+
+    mainService.login(user).then(function(response) {
+      if (!response.data) {
+        alert('User does not exist');
+        $scope.user.password = '';
+      } else {
+        $state.go('todo');
+      }
+    }).catch(function(err) {
+      console.log("ERROR: ", err);
+    });
+  };
+
+
+
+
 
 
 //////////////// todoView.html
