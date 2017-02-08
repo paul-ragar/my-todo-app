@@ -1,28 +1,36 @@
-angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope, $state) {
+angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope, $stateParams, $state) {
 
-
+// $scope.todos = todos;
 //////////////// todoView.html
 
   $scope.postTodo = (newTodo) => {
-    newTodo.todo_date = new Date();
-    mainService.postTodo(newTodo).then((response) => {
-      if (!response.data) {
-        console.warn("There was an error");
-      } else {
-        // console.log("New Todo Successful");
-        $scope.getTodos();
-      }
-    }).catch((err) => {
-      alert("There was an error creating new todo")
-    });
+    mainService.getCurrentUser().then((response) => {
+      newTodo.user_id = response.data.user_id;
+      newTodo.todo_date = new Date();
+      mainService.postTodo(newTodo).then((response) => {
+        if (!response.data) {
+          console.warn("There was an error");
+        } else {
+          // console.log("New Todo Successful");
+          $scope.getTodos();
+        }
+      }).catch((err) => {
+        alert("There was an error creating new todo")
+      });
+    })
   }
 
   $scope.getTodos = () => {
-    mainService.getTodos().then((response) => {
-      $scope.todos = response.data;
+    mainService.getCurrentUser().then((response) => {
+      console.log("getCurrentUser returning this => ",response.data);
+      var user_id = response.data.user_id;
+      mainService.getTodos(user_id).then((response) => {
+        $scope.todos = response.data;
+      })
     })
+
   };
-  $scope.getTodos();
+  // $scope.getTodos();
 
   $scope.updateList = () => {
 
@@ -48,7 +56,7 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
       $scope.completes = response.data;
     })
   }
-  $scope.getCompletes();
+  // $scope.getCompletes();
 
   $scope.deleteTodos = (todo) => {
     mainService.deleteTodos(todo).then((response) => {
@@ -75,6 +83,13 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
     })
   }
 
+  $scope.logout = () => {
+    mainService.logout().then((response) => {
+      console.log("Logged Out");
+      $state.go('login');
+    })
+  }
+
 
 //////////////// signupView.html
 
@@ -84,12 +99,13 @@ angular.module('myTodoApp').controller('mainCtrl', function(mainService, $scope,
         console.warn("Unable to create new user");
       } else {
         // console.log("You created this new user", response.data);
-        $state.go('todo');
+        $state.go('login');
       }
     }).catch((err) => {
       alert("Unable to create new user");
     });
   }
+
 
 
 //////////////// loginView.html

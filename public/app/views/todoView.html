@@ -1,4 +1,10 @@
 <section class="todo-container">
+
+  <section class="fixed-nav">
+    <button type="button" name="button" ng-click="getTodos()" >GET</button>
+    <button class="logout-button" type="button" name="button" ng-click="logout()" >Logout</button>
+  </section>
+
   <section class="todo-section">
     <h1>Create New To-Do</h1>
     <form ng-submit="postTodo(newTodo); newTodo = null" method="post">
@@ -35,4 +41,5 @@
       <button type="button" ng-click="deleteCompletes(complete)" name="button">X</button>
     </div>
   </section>
+
 </section>

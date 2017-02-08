@@ -1,3 +1,3 @@
 SELECT *
-FROM todos;
--- WHERE todos.user_id = $1;
+FROM todos
+WHERE todos.user_id = $1;

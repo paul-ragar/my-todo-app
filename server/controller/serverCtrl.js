@@ -8,7 +8,7 @@ const db = app.get('db');
       });
     },
     post_todo: (req, res, next) => {
-      db.todos.post_todo([req.body.todo_title, req.body.todo_description, req.body.todo_date], (err, post_todo) => {
+      db.todos.post_todo([req.body.todo_title, req.body.todo_description, req.body.todo_date, req.body.user_id], (err, post_todo) => {
         res.status(200).send(post_todo);
       });
     },

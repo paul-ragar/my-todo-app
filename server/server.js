@@ -62,11 +62,13 @@ app.put('/user/:_id', isAuthed, userCtrl.update);
 
 //TODO
 app.post('/post_todo', serverCtrl.post_todo)
-app.get('/todos', (req, res) => {
-  db.todos.get_todos((err, todos) => {
+
+app.get('/todos/:user_id', (req, res) => {
+  db.todos.get_todos([req.params.user_id], (err, todos) => {
     res.status(200).send(todos);
   })
 });
+
 app.delete('/delete_todos/:todo_id', serverCtrl.delete_todos)
 app.put('/update_todo/:todo_id', serverCtrl.update_todo)
 

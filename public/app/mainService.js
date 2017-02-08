@@ -13,10 +13,10 @@ angular.module('myTodoApp').service('mainService', function($http) {
     });
   };
 
-  this.getTodos = () => {
+  this.getTodos = (user_id) => {
     return $http({
       method: 'GET',
-      url: '/todos'
+      url: '/todos/' + user_id
     }).then((response) => {
       return response;
     });
@@ -81,7 +81,7 @@ angular.module('myTodoApp').service('mainService', function($http) {
   this.registerUser = (new_user) => {
     return $http({
       method: 'POST',
-      url: '/register_user',
+      url: '/register',
       data: new_user
     }).then((response) => {
       // console.log("MainService: ", response);
@@ -114,7 +114,7 @@ this.login = function(user) {
     return $http({
       method: 'GET',
       url: '/me'
-    });
+    })
   };
 
   this.registerUser = function(user) {

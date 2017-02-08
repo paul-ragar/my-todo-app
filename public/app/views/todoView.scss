@@ -93,6 +93,23 @@
   .todo-container {
     width: 100vw;
     padding: 5px;
+    position: relative;
+    .fixed-nav {
+      height: 30px;
+      width: 100%;
+      background-color: rgb(59, 153, 252);
+      top: 0px;
+      margin-left: -5px;
+      position: fixed;
+      display: flex;
+      justify-content: flex-end;
+      .logout-button {
+        height: 100%;
+        color: white;
+        font-size: 13px;
+        margin-right: 5px;
+      }
+    }
     .todo-section {
       width: 100%;
       border: solid .5px lightgray;
@@ -100,7 +117,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      margin: 0 0 5px 0;
+      margin: 30px 0 5px 0;
       padding: 5px;
       h1 {
         margin: 5px auto;
